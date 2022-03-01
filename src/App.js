@@ -1,25 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+//State a description of your app, will change from de value of the input
+//Props (child) things that come from the state (parent)
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+//import React, {useState} from 'react';
+import React, {Component} from 'react';
+import Searchbox from './SearchBox';
+import CardList from './CardList';
+import { Robots } from './Robots';
+
+class App extends Component {
+  //const [robots, setRobots] = useState();
+  //const [search, setSearch] = useState('');
+  constructor(){
+    super()
+    this.state ={
+      robots: Robots,
+      searchfield:''
+    }
+  }
+  onSearchChange = (e) =>{
+   this.setState = ({ searchfield : e.target.value})
+  }
+  render(){
+    const filteredRobots = this.state.robots.filter(robot => {
+      return robot.name.toLowerCase().includes(this.state.searchfield.toLowerCase())
+    })
+  return(
+      <div className='tc'>
+        <h1>RoboFriends</h1>
+        <Searchbox searchChange={this.onSearchChange}/>
+        <CardList robots={filteredRobots}/>
+      </div> 
+    )
+  }
 }
 
-export default App;
+export default App
